@@ -12,6 +12,16 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+def valid_text(value):
+    return isinstance(value, str) and 1 <= len(value.strip()) <= 20
+
+def valid_cost(value):
+    try:
+        cost = float(value)
+        return cost > 0 and cost < 100000
+    except:
+        return False
+
 # ENDPOINTS
 @backend_app.route("/api", methods=["GET"])
 def get_all():
@@ -34,11 +44,36 @@ def create_dest():
     data = request.get_json()  # parses incoming json
     dest_name = data[0].get("name")
     # TODO: Input validation on all fields prior to database insertion!
+    if not data:
+        return jsonify({"error": "No data"}), 400
+
+    name = data.get("name")
+    country = data.get("country")
+    cost = data.get("cost")
+
+    if not valid_text(name):
+        return jsonify({"error": "Invalid name"}), 400
+
+    if not valid_text(country):
+        return jsonify({"error": "Invalid country"}), 400
+
+    if not valid_cost(cost):
+        return jsonify({"error": "Invalid cost"}), 400
+
 
     # Connect to DB and insert information
     conn = get_db_connection()
-    conn.execute('INSERT INTO destinations (name, photo) VALUES (?, ?)',
-                 (dest_name, "none"))
+    conn.execute(
+    "INSERT INTO destinations (name, country, cost) VALUES (?, ?, ?)",
+    (name, country, float(cost))
+)
     conn.commit()
     conn.close()
-    return jsonify({"name": dest_name}), 201  # creates response json, returns HTTP response 201
+    return jsonify({
+    "name": name,
+    "country": country,
+    "cost": float(cost)
+}), 201 
+ # creates response json, returns HTTP response 201、
+if __name__ == "__main__":
+    backend_app.run(port=5001, debug=True)
