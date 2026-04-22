@@ -42,7 +42,6 @@ def get_all():
 def create_dest():
     # get info from POST request
     data = request.get_json()  # parses incoming json
-    dest_name = data[0].get("name")
     # TODO: Input validation on all fields prior to database insertion!
     if not data:
         return jsonify({"error": "No data"}), 400

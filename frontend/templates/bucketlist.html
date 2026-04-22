@@ -1,19 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Name</th>
+        <th>Country</th>
+        <th>Cost</th>
+    </tr>
+
     {% for each_place in places %}
-    <div class="card" style="width: 300px;">
-        {% if each_place.photo == null or each_place.photo == "none" %} <!-- if there is not a photo -->
-            <img src="{{ url_for('static', filename='images/tahiti.jpg') }}" class="card-img-top" alt="...">
-        {% else %} <!-- there is a photo -->
-            <img src="{{ url_for('static', filename='images/'+each_place.photo) }}" class="card-img-top" alt="...">
-        {% endif %}
-        <div class="card-body text-center">
-            <h5 class="card-title">{{ each_place.name }}</h5>
-            <!-- TODO: Add additional fields here -->
-        </div>
-    </div>
+    <tr>
+        <td>{{ each_place.name }}</td>
+        <td>{{ each_place.country }}</td>
+        <td>{{ each_place.cost }}</td>
+    </tr>
     {% endfor %}
-    <br>
-    <h2><a href="/new_destination">Enter a new bucket list destination</a></h2>
+</table>
+
+<br>
+<h2><a href="/new_destination">Enter a new bucket list destination</a></h2>
 {% endblock %}
