@@ -13,13 +13,15 @@ cur = connection.cursor()
 
 # add two default entries
 # TODO: You will need to modify this to handle the additional fields
-cur.execute("INSERT INTO destinations (name, photo) VALUES (?, ?)",
-            ('Hawaii', 'honolulu.jpeg')
-            )
-cur.execute("INSERT INTO destinations (name, photo) VALUES (?, ?)",
-            ('Bahamas', 'nassau.jpeg')
-            )
+cur.execute(
+    "INSERT INTO destinations (name, country, cost) VALUES (?, ?, ?)",
+    ("Hawaii", "USA", 7000)
+)
 
+cur.execute(
+    "INSERT INTO destinations (name, country, cost) VALUES (?, ?, ?)",
+    ("Bahamas", "Bahamas", 4000)
+)
 # commit changes and close the connection
 connection.commit()
 connection.close()
