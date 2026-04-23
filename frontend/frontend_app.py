@@ -39,7 +39,7 @@ def home():
 
     # now, pass the data returned from the backend to the template and
     # render it (send it to the client computer as an HTML file)
-    return render_template('bucketlist.html', places=response.json())
+    return render_template('bucketlist.html', places=response.json()[:5])
 
 # add a new destination
 @frontend_app.route("/new_destination", methods=["GET", "POST"])
